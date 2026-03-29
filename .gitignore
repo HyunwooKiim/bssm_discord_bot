@@ -1,9 +1,6 @@
 .env
 __pycache__
 commands/__pycache__
-utiles/__pycache__
-allergy_data.json
-requirements.txt
+utils/__pycache__
 bot.log
 bot.pid
-commands/hidden_commands.py
