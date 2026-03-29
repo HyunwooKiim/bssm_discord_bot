@@ -1,21 +1,20 @@
 from discord.ext import commands
 from utils.meal_fetcher import fetch_meal
-from utils.allergy import load_allergy_data
 from config import MEAL_TYPE, ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE
 import aiohttp
 import datetime
 import os
 
-allergy_dict = load_allergy_data()
+
 
 def setup_meal_commands(bot):
     @bot.command(name="급식")
     async def meal(ctx, meal_name: str = None, date_str: str = None):
         if meal_name not in MEAL_TYPE:
-            await ctx.send(">>> # 📚 급식봇 사용법 안내\n## 🍱 오늘/특정일 급식\n- !급식 아침\n- !급식 점심 내일\n- !급식 저녁 3.21\n## 🔍 메뉴 검색\n- !메뉴검색 치킨\n- !메뉴검색 복숭아 7\n## ⚠️ 알러지 등록/관리\n- !알러지등록 우유 복숭아 9\n- !내알러지\n- !알러지삭제\n-# 🙌 알러지 포함 메뉴는 ~~취소선~~ 처리돼요!")
+            await ctx.send(">>> # 📚 급식봇 사용법 안내\n## 🍱 오늘/특정일 급식\n- !급식 아침\n- !급식 점심 내일\n- !급식 저녁 3.21\n## 🔍 메뉴 검색\n- !메뉴검색 치킨\n- !메뉴검색 복숭아 7")
             return
 
-        msg = await fetch_meal(meal_name, ctx.author.id, date_str, allergy_dict)
+        msg = await fetch_meal(meal_name, ctx.author.id, date_str)
         await ctx.send(msg)
 
     @bot.command(name="메뉴검색")

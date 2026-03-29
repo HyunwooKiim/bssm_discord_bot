@@ -1,14 +1,13 @@
 import aiohttp
 from config import ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MEAL_TYPE
 from utils.date_parser import parse_date
-from utils.allergy import apply_allergy_highlight
 import datetime
 import os
 from dotenv import load_dotenv
 load_dotenv()
 NEIS_API_KEY = os.getenv("NEIS_API_KEY")
 
-async def fetch_meal(meal_name, user_id=None, date_str=None, allergy_dict=None):
+async def fetch_meal(meal_name, user_id=None, date_str=None):
     if date_str is None:
         date = datetime.datetime.now()
     else:
@@ -33,9 +32,7 @@ async def fetch_meal(meal_name, user_id=None, date_str=None, allergy_dict=None):
     try:
         meal_data_raw = data['mealServiceDietInfo'][1]['row'][0]['DDISH_NM']
         meal_lines = meal_data_raw.split('<br/>')
-        allergy_numbers = allergy_dict.get(str(user_id), []) if allergy_dict else []
-        highlighted_lines = apply_allergy_highlight(meal_lines, allergy_numbers)
-        meal_data = '\n'.join(highlighted_lines)
+        meal_data = '\n'.join(meal_lines)
         return f">>> ## 📅 {date.strftime('%Y-%m-%d')} {meal_name} 급식:\n{meal_data}"
     except KeyError:
         return f"😢 {date.strftime('%Y-%m-%d')} {meal_name} 급식 정보를 불러올 수 없어요."

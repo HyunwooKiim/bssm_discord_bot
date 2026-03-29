@@ -1,6 +1,6 @@
 from discord.ext import commands
 from utils.meal_fetcher import fetch_meal
-from utils.date_utils import parse_date
+from utils.date_parser import parse_date
 from config import MEAL_TYPE, ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE
 import aiohttp
 import datetime
